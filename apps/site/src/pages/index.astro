@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../lib/posts';
+
+const posts = getPublishedPosts();
+const baseUrl = import.meta.env.BASE_URL;
+const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+---
+
+<BaseLayout title="Discord Blog PoC">
+  <section class="hero">
+    <p class="eyebrow">Published snapshots</p>
+    <h1>スマホの Discord 投稿から公開までを PoC で通すブログ</h1>
+    <p class="lead">
+      draft は bot 側で管理し、ここには `!publish` で確定したスナップショットだけを表示します。
+    </p>
+  </section>
+
+  <section class="post-list">
+    {posts.length === 0 ? (
+      <article class="card empty">
+        <h2>まだ公開記事がありません</h2>
+        <p>`npm run demo` で draft 作成から publish までまとめて再現できます。</p>
+      </article>
+    ) : (
+      posts.map((post) => (
+        <article class="card">
+          <p class="meta">
+            <span>{post.data.authorName}</span>
+            <span>{new Date(post.data.publishedAt ?? post.data.draftUpdatedAt).toLocaleString('ja-JP')}</span>
+          </p>
+          <h2>
+            <a href={`${basePath}posts/${post.slug}/`}>{post.data.title}</a>
+          </h2>
+          {post.data.tags.length > 0 && (
+            <ul class="tags">
+              {post.data.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          )}
+        </article>
+      ))
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,19 @@
+{
+  "messageId": "demo-message-1",
+  "channelId": "demo-blog-channel",
+  "content": "!post\ntitle: Hello from Discord\nslug: hello-from-discord\ntags: discord, astro, poc\n\nThis post started life as a Discord message.\n\n- The bot parses the frontmatter-ish header\n- Saves a draft markdown file\n- Copies image attachments into `/uploads/YYYY/MM`\n",
+  "author": {
+    "id": "author-1",
+    "name": "Demo Writer",
+    "roles": []
+  },
+  "attachments": [
+    {
+      "name": "hero.svg",
+      "sourcePath": "demo/assets/hero.svg",
+      "contentType": "image/svg+xml"
+    }
+  ],
+  "createdAt": "2026-04-01T01:00:00.000Z",
+  "updatedAt": "2026-04-01T01:00:00.000Z"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@discord-blog-poc/site",
+  "private": true,
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev"
+  },
+  "dependencies": {
+    "astro": "^5.7.2"
+  }
+}

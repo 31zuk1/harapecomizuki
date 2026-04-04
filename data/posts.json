@@ -1,0 +1,27 @@
+{
+  "posts": {
+    "1489994012982247445": {
+      "messageId": "1489994012982247445",
+      "channelId": "1489837525231992873",
+      "slug": "discord-restart-test",
+      "title": "Discord Restart Test",
+      "tags": [
+        "discord",
+        "astro",
+        "poc",
+        "restart"
+      ],
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nThis line was added by editing the original Discord post.\n\n念のためもう一度確認\n\ndemo",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "status": "published",
+      "hasUnpublishedChanges": false,
+      "attachments": [],
+      "draftFilePath": "content/drafts/discord-restart-test.md",
+      "publishedFilePath": "apps/site/src/posts/discord-restart-test.md",
+      "createdAt": "2026-04-04T14:24:15.445Z",
+      "updatedAt": "2026-04-04T15:08:46.751Z",
+      "publishedAt": "2026-04-04T15:10:58.455Z"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "messageId": "demo-message-1",
+  "channelId": "demo-blog-channel",
+  "content": "!post\ntitle: Hello from Discord\nslug: ignored-after-first-save\ntags: discord, astro, poc, edited\n\nThis post started life as a Discord message.\n\nIt was then edited on mobile and synced back into the draft.\n\n1. The published page will stay untouched until `!publish`\n2. The draft markdown keeps the latest body\n3. The JSON registry tracks `messageId -> slug`\n",
+  "author": {
+    "id": "author-1",
+    "name": "Demo Writer",
+    "roles": []
+  },
+  "attachments": [
+    {
+      "name": "hero.svg",
+      "sourcePath": "demo/assets/hero.svg",
+      "contentType": "image/svg+xml"
+    }
+  ],
+  "createdAt": "2026-04-01T01:00:00.000Z",
+  "updatedAt": "2026-04-01T02:15:00.000Z"
+}
