@@ -34,16 +34,16 @@
         "poc",
         "test"
       ],
-      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nできるかな？",
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nできるかな？\nauto pushを有効にしたよ\n問題を修正した(2回目)",
       "authorId": "823771760339058739",
       "authorName": "Mizuki",
       "status": "published",
-      "hasUnpublishedChanges": false,
+      "hasUnpublishedChanges": true,
       "attachments": [],
       "draftFilePath": "content/drafts/test.md",
       "publishedFilePath": "apps/site/src/posts/test.md",
       "createdAt": "2026-04-04T16:26:33.370Z",
-      "updatedAt": "2026-04-04T16:26:33.370Z",
+      "updatedAt": "2026-04-04T16:48:45.694Z",
       "publishedAt": "2026-04-04T16:27:12.356Z"
     }
   }
