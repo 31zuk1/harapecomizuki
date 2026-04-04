@@ -60,8 +60,8 @@
       "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\n画像も投稿できるかな",
       "authorId": "823771760339058739",
       "authorName": "Mizuki",
-      "status": "draft",
-      "hasUnpublishedChanges": true,
+      "status": "published",
+      "hasUnpublishedChanges": false,
       "attachments": [
         {
           "originalName": "2026-02-19_17.10.54.png",
@@ -74,7 +74,7 @@
       "publishedFilePath": "apps/site/src/posts/image-upload-test.md",
       "createdAt": "2026-04-04T16:53:52.659Z",
       "updatedAt": "2026-04-04T16:53:52.659Z",
-      "publishedAt": null
+      "publishedAt": "2026-04-04T16:54:27.525Z"
     }
   }
 }
