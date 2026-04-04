@@ -38,13 +38,13 @@
       "authorId": "823771760339058739",
       "authorName": "Mizuki",
       "status": "published",
-      "hasUnpublishedChanges": true,
+      "hasUnpublishedChanges": false,
       "attachments": [],
       "draftFilePath": "content/drafts/test.md",
       "publishedFilePath": "apps/site/src/posts/test.md",
       "createdAt": "2026-04-04T16:26:33.370Z",
       "updatedAt": "2026-04-04T16:48:45.694Z",
-      "publishedAt": "2026-04-04T16:27:12.356Z"
+      "publishedAt": "2026-04-04T16:49:08.947Z"
     }
   }
 }

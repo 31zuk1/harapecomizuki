@@ -10,9 +10,9 @@ authorId: "823771760339058739"
 sourceMessageId: "1490024790470299971"
 sourceChannelId: "1489837525231992873"
 status: "published"
-hasUnpublishedChanges: true
+hasUnpublishedChanges: false
 draftUpdatedAt: "2026-04-04T16:48:45.694Z"
-publishedAt: "2026-04-04T16:27:12.356Z"
+publishedAt: "2026-04-04T16:49:08.947Z"
 attachments: []
 ---
 This is a fresh test from Discord.
