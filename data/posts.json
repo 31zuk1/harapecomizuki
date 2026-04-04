@@ -1,80 +1,34 @@
 {
   "posts": {
-    "1489994012982247445": {
-      "messageId": "1489994012982247445",
-      "channelId": "1489837525231992873",
-      "slug": "discord-restart-test",
-      "title": "Discord Restart Test",
+    "demo-message-1": {
+      "messageId": "demo-message-1",
+      "channelId": "demo-blog-channel",
+      "slug": "hello-from-discord",
+      "title": "Hello from Discord",
       "tags": [
         "discord",
         "astro",
-        "poc",
-        "restart"
+        "poc"
       ],
-      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nThis line was added by editing the original Discord post.\n\n念のためもう一度確認\n\ndemo",
-      "authorId": "823771760339058739",
-      "authorName": "Mizuki",
-      "status": "published",
-      "hasUnpublishedChanges": false,
-      "attachments": [],
-      "draftFilePath": "content/drafts/discord-restart-test.md",
-      "publishedFilePath": "apps/site/src/posts/discord-restart-test.md",
-      "createdAt": "2026-04-04T14:24:15.445Z",
-      "updatedAt": "2026-04-04T15:08:46.751Z",
-      "publishedAt": "2026-04-04T15:10:58.455Z"
-    },
-    "1490024790470299971": {
-      "messageId": "1490024790470299971",
-      "channelId": "1489837525231992873",
-      "slug": "test",
-      "title": "Discord CMS Test (bypass github actions)",
-      "tags": [
-        "discord",
-        "astro",
-        "poc",
-        "test"
-      ],
-      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nできるかな？\nauto pushを有効にしたよ\n問題を修正した(2回目)",
-      "authorId": "823771760339058739",
-      "authorName": "Mizuki",
-      "status": "published",
-      "hasUnpublishedChanges": false,
-      "attachments": [],
-      "draftFilePath": "content/drafts/test.md",
-      "publishedFilePath": "apps/site/src/posts/test.md",
-      "createdAt": "2026-04-04T16:26:33.370Z",
-      "updatedAt": "2026-04-04T16:48:45.694Z",
-      "publishedAt": "2026-04-04T16:49:08.947Z"
-    },
-    "1490031666146574376": {
-      "messageId": "1490031666146574376",
-      "channelId": "1489837525231992873",
-      "slug": "image-upload-test",
-      "title": "image upload test",
-      "tags": [
-        "discord",
-        "test",
-        "poc",
-        "astro"
-      ],
-      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\n画像も投稿できるかな",
-      "authorId": "823771760339058739",
-      "authorName": "Mizuki",
-      "status": "published",
-      "hasUnpublishedChanges": false,
+      "body": "This post started life as a Discord message.\n\n- The bot parses the frontmatter-ish header\n- Saves a draft markdown file\n- Copies image attachments into `/uploads/YYYY/MM`",
+      "authorId": "author-1",
+      "authorName": "Demo Writer",
+      "status": "draft",
+      "hasUnpublishedChanges": true,
       "attachments": [
         {
-          "originalName": "2026-02-19_17.10.54.png",
-          "storedRelativePath": "uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
-          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
-          "contentType": "image/png"
+          "originalName": "hero.svg",
+          "storedRelativePath": "uploads/2026/04/demo-message-1-20260401010000-hero.svg",
+          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/demo-message-1-20260401010000-hero.svg",
+          "contentType": "image/svg+xml"
         }
       ],
-      "draftFilePath": "content/drafts/image-upload-test.md",
-      "publishedFilePath": "apps/site/src/posts/image-upload-test.md",
-      "createdAt": "2026-04-04T16:53:52.659Z",
-      "updatedAt": "2026-04-04T16:53:52.659Z",
-      "publishedAt": "2026-04-04T16:54:27.525Z"
+      "publishedAttachments": [],
+      "draftFilePath": "content/drafts/hello-from-discord.md",
+      "publishedFilePath": "apps/site/src/posts/hello-from-discord.md",
+      "createdAt": "2026-04-01T01:00:00.000Z",
+      "updatedAt": "2026-04-01T01:00:00.000Z",
+      "publishedAt": null
     }
   }
 }
