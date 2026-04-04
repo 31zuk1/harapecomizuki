@@ -45,6 +45,36 @@
       "createdAt": "2026-04-04T16:26:33.370Z",
       "updatedAt": "2026-04-04T16:48:45.694Z",
       "publishedAt": "2026-04-04T16:49:08.947Z"
+    },
+    "1490031666146574376": {
+      "messageId": "1490031666146574376",
+      "channelId": "1489837525231992873",
+      "slug": "image-upload-test",
+      "title": "image upload test",
+      "tags": [
+        "discord",
+        "test",
+        "poc",
+        "astro"
+      ],
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\n画像も投稿できるかな",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "status": "draft",
+      "hasUnpublishedChanges": true,
+      "attachments": [
+        {
+          "originalName": "2026-02-19_17.10.54.png",
+          "storedRelativePath": "uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
+          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
+          "contentType": "image/png"
+        }
+      ],
+      "draftFilePath": "content/drafts/image-upload-test.md",
+      "publishedFilePath": "apps/site/src/posts/image-upload-test.md",
+      "createdAt": "2026-04-04T16:53:52.659Z",
+      "updatedAt": "2026-04-04T16:53:52.659Z",
+      "publishedAt": null
     }
   }
 }
