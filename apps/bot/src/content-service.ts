@@ -47,6 +47,10 @@ function renderAttachmentMarkdown(attachments: StoredAttachment[]): string {
   return `\n\n## Attachments\n\n${blocks.join('\n\n')}\n`;
 }
 
+function buildPublicPostUrl(config: ResolvedConfig, slug: string): string {
+  return `${config.siteBaseUrl.replace(/\/$/, '')}/posts/${slug}/`;
+}
+
 function buildMarkdown(post: RegistryPost, publishedAtOverride?: string | null, hasUnpublishedChanges?: boolean): string {
   const frontmatter = renderFrontmatter({
     title: post.title,
@@ -247,9 +251,16 @@ export class BlogRepository {
       `chore(blog): publish ${slug}`
     );
 
+    const publicUrl = buildPublicPostUrl(this.config, slug);
+    const deploymentHint = this.config.gitAutoPush
+      ? `GitHub Pages への反映には少し時間がかかることがあります。${publicUrl}`
+      : this.config.gitAutoCommit
+        ? `git push 後に公開 URL で確認できます。${publicUrl}`
+        : `公開サイトへ反映するには commit / push が必要です。${publicUrl}`;
+
     return {
       ok: true,
-      message: `\`${slug}\` を公開しました。${this.config.siteBaseUrl.replace(/\/$/, '')}/posts/${slug}/`
+      message: `\`${slug}\` を公開しました。${deploymentHint}`
     };
   }
 
@@ -301,7 +312,7 @@ export class BlogRepository {
     }
 
     const liveUrl =
-      post.status === 'published' ? `${this.config.siteBaseUrl.replace(/\/$/, '')}/posts/${post.slug}/` : '未公開';
+      post.status === 'published' ? buildPublicPostUrl(this.config, post.slug) : '未公開';
     const syncState =
       post.status === 'published' && post.hasUnpublishedChanges
         ? '公開中のスナップショットより新しい draft があります'

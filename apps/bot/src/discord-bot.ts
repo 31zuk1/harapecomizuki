@@ -3,6 +3,7 @@ import {
   Client,
   Events,
   GatewayIntentBits,
+  Partials,
   type Message,
   type PartialMessage
 } from 'discord.js';
@@ -61,7 +62,8 @@ export async function startDiscordBot(config: ResolvedConfig): Promise<void> {
 
   const service = createBlogCommandService(config);
   const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+    partials: [Partials.Channel, Partials.Message]
   });
 
   client.once(Events.ClientReady, (readyClient) => {
