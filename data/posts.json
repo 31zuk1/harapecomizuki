@@ -8,9 +8,10 @@
       "tags": [
         "discord",
         "astro",
-        "poc"
+        "poc",
+        "edited"
       ],
-      "body": "This post started life as a Discord message.\n\n- The bot parses the frontmatter-ish header\n- Saves a draft markdown file\n- Copies image attachments into `/uploads/YYYY/MM`",
+      "body": "This post started life as a Discord message.\n\nIt was then edited on mobile and synced back into the draft.\n\n1. The published page will stay untouched until `!publish`\n2. The draft markdown keeps the latest body\n3. The JSON registry tracks `messageId -> slug`",
       "authorId": "author-1",
       "authorName": "Demo Writer",
       "status": "draft",
@@ -18,8 +19,8 @@
       "attachments": [
         {
           "originalName": "hero.svg",
-          "storedRelativePath": "uploads/2026/04/demo-message-1-20260401010000-hero.svg",
-          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/demo-message-1-20260401010000-hero.svg",
+          "storedRelativePath": "uploads/2026/04/demo-message-1-20260401021500-hero.svg",
+          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/demo-message-1-20260401021500-hero.svg",
           "contentType": "image/svg+xml"
         }
       ],
@@ -27,7 +28,7 @@
       "draftFilePath": "content/drafts/hello-from-discord.md",
       "publishedFilePath": "apps/site/src/posts/hello-from-discord.md",
       "createdAt": "2026-04-01T01:00:00.000Z",
-      "updatedAt": "2026-04-01T01:00:00.000Z",
+      "updatedAt": "2026-04-01T02:15:00.000Z",
       "publishedAt": null
     }
   }
