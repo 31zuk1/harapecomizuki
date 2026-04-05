@@ -13,8 +13,7 @@ updated: 2026-04-05
 - エージェントが迷ったときに参照する羅針盤
 - 現状把握と将来設計を接続する長期的な設計資産
 
-したがって、この vault は「PoC をベータ版へ進化させるためだけの使い捨てドキュメント群」ではない。  
-今後もプロジェクトの進行に合わせて更新し続ける前提の、長寿命な project memory である。
+したがって、この vault は「PoC をベータ版へ進化させるためだけの使い捨てドキュメント群」ではない。  今後もプロジェクトの進行に合わせて更新し続ける前提の、長寿命な project memory である。
 
 関連ドキュメント:
 
@@ -22,6 +21,13 @@ updated: 2026-04-05
 - [[02_architecture]]
 - [[03_data_model]]
 - [[04_roadmap]]
+- [[05_vault_map]]
+- [[06_glossary]]
+- [[07_decision_log]]
+- [[08_active_context]]
+- [[09_open_questions]]
+- [[10_work_log]]
+- [[99_vault_rules]]
 
 ## このドキュメントの目的
 
@@ -98,6 +104,13 @@ PoC としては成功しているが、構造上は以下の性格が強い。
 - 理想アーキテクチャ: [[02_architecture]]
 - データモデル: [[03_data_model]]
 - リファクタリング計画: [[04_roadmap]]
+- vault の読み方: [[05_vault_map]]
+- 用語定義: [[06_glossary]]
+- 決定済み事項: [[07_decision_log]]
+- 現在地: [[08_active_context]]
+- 未決事項: [[09_open_questions]]
+- 作業履歴: [[10_work_log]]
+- 運用ルール: [[99_vault_rules]]
 
 ## この vault の使い方
 
@@ -114,10 +127,13 @@ PoC としては成功しているが、構造上は以下の性格が強い。
 
 初見の読者には次の順を推奨する。
 
-1. [[01_current_analysis]]
-2. [[02_architecture]]
-3. [[03_data_model]]
-4. [[04_roadmap]]
+1. [[05_vault_map]]
+2. [[08_active_context]]
+3. [[07_decision_log]]
+4. [[01_current_analysis]]
+5. [[02_architecture]]
+6. [[03_data_model]]
+7. [[04_roadmap]]
 
 ## ひとことで言うと
 

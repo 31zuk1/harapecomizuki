@@ -110,6 +110,9 @@ These documents are the design context that should keep autonomous work aligned 
 ### Product / Direction
 
 - `docs/00_overview.md`
+- `docs/05_vault_map.md`
+- `docs/08_active_context.md`
+- `docs/07_decision_log.md`
 
 ### Current Code Analysis
 
@@ -126,6 +129,19 @@ These documents are the design context that should keep autonomous work aligned 
 ### Refactoring Plan
 
 - `docs/04_roadmap.md`
+
+### Working Memory / Ongoing Navigation
+
+- `docs/09_open_questions.md`
+- `docs/10_work_log.md`
+- `docs/99_vault_rules.md`
+
+For most substantial tasks, the recommended minimum read set is:
+
+1. `docs/05_vault_map.md`
+2. `docs/08_active_context.md`
+3. `docs/07_decision_log.md`
+4. then the task-specific design docs
 
 If you change architecture, data model, or major behavior, update the corresponding document in the same task. Do not leave docs stale.
 

@@ -1,0 +1,31 @@
+---
+interface Props {
+  name: string;
+  avatarUrl?: string | null;
+  primaryLabel: string;
+  secondaryLabel?: string;
+  compact?: boolean;
+}
+
+const { name, avatarUrl = null, primaryLabel, secondaryLabel, compact = false } = Astro.props;
+const initials = name
+  .split(/\s+/)
+  .filter(Boolean)
+  .map((part) => part.at(0))
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+<div class:list={['author-identity', compact && 'is-compact']}>
+  {avatarUrl ? (
+    <img class="author-avatar" src={avatarUrl} alt={`${name} のアイコン`} loading="lazy" decoding="async" />
+  ) : (
+    <div class="author-avatar author-avatar-fallback" aria-hidden="true">{initials || 'D'}</div>
+  )}
+  <div class="author-copy">
+    <p class="author-name">{name}</p>
+    <p class="author-meta-line">{primaryLabel}</p>
+    {secondaryLabel && <p class="author-meta-line">{secondaryLabel}</p>}
+  </div>
+</div>

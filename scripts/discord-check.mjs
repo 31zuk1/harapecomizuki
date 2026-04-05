@@ -51,6 +51,11 @@ console.log(
     : `Publisher role id is configured: ${process.env.PUBLISHER_ROLE_ID}`
 );
 console.log(`Site base URL: ${siteBaseUrl}`);
+console.log(
+  process.env.GITHUB_REPO && process.env.GITHUB_TOKEN
+    ? `Deploy tracking: enabled for ${process.env.GITHUB_REPO} (${process.env.GITHUB_PAGES_WORKFLOW_NAME ?? 'Deploy GitHub Pages'})`
+    : 'Deploy tracking: disabled (set GITHUB_REPO and GITHUB_TOKEN to enable workflow status lookups)'
+);
 console.log('');
 console.log('Run this in another terminal:');
 console.log('  npm run dev');

@@ -1,6 +1,6 @@
-# Discord Blog PoC
+# Discord Blog Beta
 
-Discord の特定チャンネルから `!post` で下書きを作り、`!publish` で GitHub Pages に載せるまでを最小構成で通す PoC です。DB は使わず、投稿メタデータは `data/posts.json`、draft は `content/drafts/`、公開スナップショットは `apps/site/src/posts/` に保存します。
+Discord の特定チャンネルから `!post` で下書きを作り、`!publish` で GitHub Pages に載せるまでを通す Discord-first publishing beta です。DB は使わず、投稿メタデータは `data/posts.json`、draft は `content/drafts/`、公開スナップショットは `apps/site/src/posts/` に保存します。
 
 ## アーキテクチャ
 
@@ -47,6 +47,10 @@ cp .env.example .env
 - `GIT_AUTO_PUSH`: `true` なら commit 後に git push
 - `SITE_BASE_URL`: 公開 URL
 - `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`: auto commit 用 author
+- `GITHUB_REPO`: deploy 状態を追跡したい GitHub repo (`owner/repo`)
+- `GITHUB_TOKEN`: GitHub Actions status を読む token
+- `GITHUB_PAGES_WORKFLOW_NAME`: Pages workflow 名。通常は `Deploy GitHub Pages`
+- `MAX_ATTACHMENT_SIZE_MB`: 添付のサイズ上限。既定は `10`
 
 root の `npm run dev`, `npm run demo`, `npm run build`, `npm run test`, `npm run discord:check`, `npm run pages:check` は `.env` を自動で読み込みます。
 
@@ -59,6 +63,9 @@ Discord なしで一連の流れを再現します。
 ```bash
 npm run demo
 ```
+
+`demo` は常にローカル専用で動き、`GIT_AUTO_COMMIT` / `GIT_AUTO_PUSH` は無効化されます。本番 repo への自動 push は行いません。
+ただし、`data/posts.json`, `content/drafts/`, `apps/site/src/posts/`, `apps/site/public/uploads/` は demo fixture に合わせて更新されます。
 
 個別にも動かせます。
 
@@ -108,6 +115,28 @@ npm run dev
 - Astro site: `http://localhost:4321`
 - Discord bot: `DISCORD_TOKEN` があれば接続、なければ idle
 
+### 本番っぽい常駐運用
+
+build 済み bot を本番寄りに単体起動できます。
+
+```bash
+npm run build
+npm run start:bot
+```
+
+Astro の build 済み preview は次です。
+
+```bash
+npm run preview:site
+```
+
+常駐化のテンプレートは `deploy/` に同梱しています。
+
+- `deploy/pm2.ecosystem.config.cjs`
+- `deploy/discord-blog-bot.service`
+
+本番向けの環境変数テンプレートは `.env.production.example` を使ってください。
+
 ### Build / Test
 
 ```bash
@@ -152,9 +181,23 @@ tags: a, b
 ### 2. 操作コマンド
 
 - `!publish <slug>`
+- `!republish <slug>`
 - `!unpublish <slug>`
 - `!status <slug>`
+- `!preview <slug>`
+- `!drafts [limit]`
+- `!recent [limit]`
+- `!cleanup-uploads`
 - `!help`
+
+## Public Site Features
+
+- 公開記事一覧に author 名と公開日時を表示
+- 新しい publish からは Discord avatar URL も frontmatter に保持
+- サイト内検索で title / tags / author / excerpt を横断検索
+- 各記事ページに拍手ボタンを設置
+
+拍手数は現状 beta 実装のため、ブラウザごとの localStorage に保存されます。グローバル共有カウントではありません。
 
 ## 動作仕様
 
@@ -163,11 +206,15 @@ tags: a, b
 - `messageId` ごとに 1 つの slug を紐付け
 - 初回保存後の slug は固定
 - `!publish` は現在の draft から公開用 Markdown を作成
+- `!republish` は公開中記事を最新 draft で再反映する
 - publish 後に Discord メッセージを編集しても公開中の記事は自動更新しない
 - `!unpublish` しても draft は残る
 - 添付は `apps/site/public/uploads/YYYY/MM` にコピーされ、本文末尾に Markdown として追加される
+- 添付は画像 / `pdf` / `txt` / `md` に限定し、サイズ上限を超えると拒否する
 - 添付 URL は `SITE_BASE_URL` を基準に絶対 URL で生成される
 - git automation は Git リポジトリかつ `GIT_AUTO_COMMIT=true` のときだけ有効
+- `GITHUB_REPO` / `GITHUB_TOKEN` があれば `!status` と publish 返信で GitHub Actions の deploy 状態を表示する
+- bot 側の mutate 操作は単一キューで逐次処理する
 
 ## ファイルの見方
 
@@ -179,13 +226,16 @@ tags: a, b
 
 `.github/workflows/pages.yml` で `main` push 時に `apps/site/dist` を deploy します。project pages で base path が必要な場合は、リポジトリ変数または `.env` の `SITE_BASE_URL` を `https://<user>.github.io/<repo>/` のように設定してください。
 
+`!publish` の返信で URL が返ってきても、GitHub Pages deploy 完了までは一時的に 404 になることがあります。deploy 状態を bot でも見たい場合は `GITHUB_REPO` と `GITHUB_TOKEN` を設定してください。
+
 ## 制限
 
 - シングルテナント前提
-- 競合編集や同時 publish のロックはなし
-- Discord 添付の削除検知はしていないため、不要になった upload ファイルは残る
+- process 内キューはあるが、複数 bot instance 間の分散ロックはない
+- Discord 添付の削除検知はしていないため、不要になった upload ファイルは残ることがある
 - slug の Unicode 変換は最小実装なので、日本語タイトルは自動 slug が `post-<timestamp>` になることがあります
 - Astro 側は検索、RSS、OG 生成なし
+- 既存の published snapshot は republish するまで Discord avatar を持たないため、site では fallback initials を表示することがある
 
 ## 本番化の課題
 

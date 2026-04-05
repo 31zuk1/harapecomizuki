@@ -14,7 +14,8 @@ function toIncomingAttachments(message: Message<boolean>): IncomingAttachment[] 
   return [...message.attachments.values()].map((attachment) => ({
     name: attachment.name ?? 'attachment',
     url: attachment.url,
-    contentType: attachment.contentType
+    contentType: attachment.contentType,
+    size: attachment.size
   }));
 }
 
@@ -26,7 +27,8 @@ function toIncomingMessage(message: Message<boolean>): IncomingMessage {
     actor: {
       id: message.author.id,
       name: message.member?.displayName ?? message.author.displayName ?? message.author.username,
-      roles: message.member?.roles.cache.map((role) => role.id) ?? []
+      roles: message.member?.roles.cache.map((role) => role.id) ?? [],
+      avatarUrl: message.author.displayAvatarURL({ extension: 'png', size: 128 })
     },
     attachments: toIncomingAttachments(message),
     createdAt: message.createdAt.toISOString(),

@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "astro build",
-    "dev": "astro dev"
+    "dev": "astro dev",
+    "preview": "astro preview --host 0.0.0.0"
   },
   "dependencies": {
     "astro": "^5.7.2"

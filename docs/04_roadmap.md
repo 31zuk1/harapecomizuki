@@ -28,6 +28,18 @@ updated: 2026-04-05
 
 ## 2. 優先順位付きタスク分解
 
+### 現在の進捗メモ
+
+- Task 1-1 完了: `start:bot`, `preview:site`, `.env.production.example` を追加済み
+- Task 1-2 完了: PM2 / systemd テンプレートを追加済み
+- Task 2-1 完了: `git.ts` は `GitAutomationResult` を返す
+- Task 2-2 部分完了: publish / unpublish / draft reply で git 結果を返す
+- Task 4-2 部分完了: GitHub Actions の状態確認は追加済みだが、operation log は未導入
+- Task 5-1 完了: `!drafts`, `!recent`, `!republish`, `!preview`, `!cleanup-uploads` を追加済み
+- Task 6-1 完了: single-process queue を導入済み
+- Task 3-1 着手済み: 表示系 / Markdown 系の純粋関数を `post-output.ts` へ分離開始
+- Task 7-2 完了: excerpt / 404 page / beta 向け UI 改善を実施済み
+
 ### Priority 0: 現状安定化
 
 #### Task 0-1: 直近の bot 修正を整理して main を安定化
@@ -66,6 +78,10 @@ updated: 2026-04-05
 - `package.json`
 - `README.md`
 
+状態:
+
+- 完了済み
+
 #### Task 1-2: PM2 / systemd テンプレート追加
 
 目的:
@@ -81,6 +97,10 @@ updated: 2026-04-05
 
 - 新規 `deploy/`
 - `README.md`
+
+状態:
+
+- 完了済み
 
 ### Priority 2: git automation を構造化
 
@@ -103,6 +123,10 @@ updated: 2026-04-05
 - `apps/bot/src/types.ts`
 - `apps/bot/src/content-service.ts`
 
+状態:
+
+- 完了済み
+
 #### Task 2-2: git failure を Discord reply に反映
 
 目的:
@@ -113,6 +137,12 @@ updated: 2026-04-05
 
 - add / commit / push の段階別 message
 - `status` に last git result を追加
+
+状態:
+
+- 部分完了
+- reply 側の message shaping は入った
+- 「last git result の永続化」は未実装
 
 ### Priority 3: application core の分離開始
 
@@ -131,6 +161,12 @@ updated: 2026-04-05
 
 - 新規 `apps/bot/src/markdown.ts`
 - `apps/bot/src/content-service.ts`
+
+状態:
+
+- 着手済み
+- 現在は `post-output.ts` に表示系 / Markdown 系の純粋関数を切り出している
+- まだ domain/application/infrastructure の明確な分離までは到達していない
 
 #### Task 3-2: attachment persistence を分離
 
@@ -190,6 +226,12 @@ updated: 2026-04-05
 - `apps/bot/src/config.ts`
 - `apps/bot/src/content-service.ts`
 
+状態:
+
+- 部分完了
+- GitHub API lookup は実装済み
+- operation log と deploy 履歴は未実装
+
 ### Priority 5: command surface の改善
 
 #### Task 5-1: `!drafts`, `!recent`, `!republish`
@@ -197,6 +239,10 @@ updated: 2026-04-05
 目的:
 
 - Discord 上での運用性向上
+
+状態:
+
+- 完了済み
 
 #### Task 5-2: `!post` parse error の改善
 
@@ -221,6 +267,11 @@ updated: 2026-04-05
 
 - process 内 queue
 - slug or messageId 単位 lock
+
+状態:
+
+- 最小版として完了済み
+- 現在は process-wide queue で逐次処理
 
 #### Task 6-2: revision model 導入
 
@@ -252,6 +303,10 @@ updated: 2026-04-05
 - excerpt
 - 404 page
 - attachment rendering enhancement
+
+状態:
+
+- 完了済み
 
 ### Priority 8: test 拡張
 

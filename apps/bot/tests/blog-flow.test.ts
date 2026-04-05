@@ -175,4 +175,59 @@ describe('blog flow', () => {
       message: 'publish 権限がありません。'
     });
   });
+
+  it('returns preview and status details for tracked posts', async () => {
+    await service.handleIncomingMessage(createIncomingMessage());
+
+    const preview = await service.handleIncomingMessage({
+      messageId: 'command-3',
+      channelId: 'blog-channel',
+      content: '!preview hello-from-discord',
+      actor: {
+        id: 'viewer-1',
+        name: 'Viewer',
+        roles: []
+      },
+      attachments: [],
+      createdAt: '2026-04-01T01:10:00.000Z',
+      updatedAt: '2026-04-01T01:10:00.000Z'
+    });
+
+    expect(preview?.ok).toBe(true);
+    expect(preview?.message).toContain('draft preview:');
+    expect(preview?.message).toContain('Body from Discord.');
+
+    await service.handleIncomingMessage({
+      messageId: 'command-4',
+      channelId: 'blog-channel',
+      content: '!publish hello-from-discord',
+      actor: {
+        id: 'publisher-1',
+        name: 'Publisher',
+        roles: ['publisher']
+      },
+      attachments: [],
+      createdAt: '2026-04-01T01:30:00.000Z',
+      updatedAt: '2026-04-01T01:30:00.000Z'
+    });
+
+    const status = await service.handleIncomingMessage({
+      messageId: 'command-5',
+      channelId: 'blog-channel',
+      content: '!status hello-from-discord',
+      actor: {
+        id: 'viewer-1',
+        name: 'Viewer',
+        roles: []
+      },
+      attachments: [],
+      createdAt: '2026-04-01T01:31:00.000Z',
+      updatedAt: '2026-04-01T01:31:00.000Z'
+    });
+
+    expect(status?.ok).toBe(true);
+    expect(status?.message).toContain('status: published');
+    expect(status?.message).toContain('deploy: 不明');
+    expect(status?.message).toContain('live: https://example.com/posts/hello-from-discord/');
+  });
 });

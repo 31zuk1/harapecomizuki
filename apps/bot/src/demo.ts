@@ -87,8 +87,12 @@ async function main(): Promise<void> {
   const config = resolveAppConfig(
     {
       ...process.env,
-      BLOG_CHANNEL_ID: process.env.BLOG_CHANNEL_ID ?? 'demo-blog-channel',
-      PUBLISHER_ROLE_ID: process.env.PUBLISHER_ROLE_ID ?? 'demo-publisher',
+      BLOG_CHANNEL_ID: 'demo-blog-channel',
+      PUBLISHER_ROLE_ID: 'demo-publisher',
+      GIT_AUTO_COMMIT: 'false',
+      GIT_AUTO_PUSH: 'false',
+      GITHUB_REPO: '',
+      GITHUB_TOKEN: '',
       SITE_BASE_URL: process.env.SITE_BASE_URL ?? 'http://localhost:4321'
     },
     currentWorkingDir

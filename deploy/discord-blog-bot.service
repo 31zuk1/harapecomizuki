@@ -1,0 +1,16 @@
+[Unit]
+Description=Discord Blog Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/discord-blog-poc
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/env npm run start:bot
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

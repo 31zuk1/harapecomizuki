@@ -1,0 +1,311 @@
+---
+import type { PublishedPost } from '../lib/posts';
+import { getPublishedPostGraph } from '../lib/posts';
+
+interface Props {
+  posts: PublishedPost[];
+  focusSlug?: string;
+  sectionId?: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  posts,
+  focusSlug,
+  sectionId = 'graph-view',
+  eyebrow = 'Graph View',
+  title = '記事同士の関係性を可視化する',
+  description = 'shared tags と author を元に、公開済み記事の近さをグラフとして表示します。'
+} = Astro.props;
+
+const graph = getPublishedPostGraph(posts, focusSlug);
+const baseUrl = import.meta.env.BASE_URL;
+const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+const width = 920;
+const height = focusSlug ? 560 : 620;
+const centerX = width / 2;
+const centerY = focusSlug ? height / 2 - 8 : height / 2;
+const outerRadiusX = focusSlug ? 300 : 320;
+const outerRadiusY = focusSlug ? 180 : 220;
+const maxStrength = Math.max(...graph.nodes.map((node) => node.connectionStrength), 1);
+const defaultSlug = focusSlug ?? graph.nodes[0]?.slug ?? '';
+const defaultSummary = defaultSlug
+  ? {
+      slug: defaultSlug,
+      node: graph.nodes.find((node) => node.slug === defaultSlug) ?? null,
+      relations: graph.adjacency[defaultSlug] ?? []
+    }
+  : null;
+
+function toShortLabel(titleValue: string): string {
+  return titleValue.length > 18 ? `${titleValue.slice(0, 16)}…` : titleValue;
+}
+
+const positions = new Map<string, { x: number; y: number; radius: number }>();
+
+if (graph.nodes.length > 0) {
+  if (focusSlug && graph.nodes.some((node) => node.slug === focusSlug)) {
+    const focusNode = graph.nodes.find((node) => node.slug === focusSlug);
+    if (focusNode) {
+      const strengthRatio = focusNode.connectionStrength / maxStrength;
+      positions.set(focusNode.slug, {
+        x: centerX,
+        y: centerY,
+        radius: 40 + Math.round(strengthRatio * 8)
+      });
+    }
+
+    const others = graph.nodes.filter((node) => node.slug !== focusSlug);
+    const arcStart = -Math.PI * 0.15;
+    const arcEnd = Math.PI * 1.15;
+    others.forEach((node, index) => {
+      const angle =
+        others.length === 1
+          ? -Math.PI / 2
+          : arcStart + ((arcEnd - arcStart) * index) / Math.max(others.length - 1, 1);
+      const strengthRatio = node.connectionStrength / maxStrength;
+      positions.set(node.slug, {
+        x: centerX + Math.cos(angle) * outerRadiusX,
+        y: centerY + Math.sin(angle) * outerRadiusY,
+        radius: 26 + Math.round(strengthRatio * 8)
+      });
+    });
+  } else {
+    graph.nodes.forEach((node, index) => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * index) / Math.max(graph.nodes.length, 1);
+      const strengthRatio = node.connectionStrength / maxStrength;
+      positions.set(node.slug, {
+        x: centerX + Math.cos(angle) * outerRadiusX,
+        y: centerY + Math.sin(angle) * outerRadiusY,
+        radius: 24 + Math.round(strengthRatio * 10)
+      });
+    });
+  }
+}
+
+const graphPayload = {
+  basePath,
+  defaultSlug,
+  nodes: Object.fromEntries(
+    graph.nodes.map((node) => [
+      node.slug,
+      {
+        slug: node.slug,
+        title: node.title,
+        relationCount: node.relationCount,
+        connectionStrength: node.connectionStrength,
+        authorName: node.authorName,
+        publishedAt: node.publishedAt ? new Date(node.publishedAt).toLocaleString('ja-JP') : '日時未設定',
+        tags: node.tags
+      }
+    ])
+  ),
+  adjacency: graph.adjacency
+};
+---
+
+<section class="relation-graph-section card" id={sectionId} data-relation-graph>
+  <div class="relation-graph-heading">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    <p class="graph-summary">
+      {description}
+      {graph.edges.length > 0 && ` 現在は ${graph.nodes.length} nodes / ${graph.edges.length} links を描画しています。`}
+    </p>
+  </div>
+
+  {graph.nodes.length === 0 ? (
+    <p class="graph-empty">まだ公開済み記事がないため、relation graph は生成されていません。</p>
+  ) : (
+    <div class="relation-graph-layout">
+      <div class="relation-graph-frame">
+        <svg
+          class="relation-graph-canvas"
+          viewBox={`0 0 ${width} ${height}`}
+          role="img"
+          aria-label="公開済み記事の関係性グラフ"
+        >
+          {graph.edges.map((edge) => {
+            const source = positions.get(edge.sourceSlug);
+            const target = positions.get(edge.targetSlug);
+
+            if (!source || !target) {
+              return null;
+            }
+
+            return (
+              <line
+                class="graph-edge"
+                x1={source.x}
+                y1={source.y}
+                x2={target.x}
+                y2={target.y}
+                stroke-width={Math.max(1.4, Math.min(edge.score * 0.75, 6))}
+                data-graph-edge
+                data-edge-id={edge.id}
+                data-source={edge.sourceSlug}
+                data-target={edge.targetSlug}
+              />
+            );
+          })}
+
+          {graph.nodes.map((node) => {
+            const position = positions.get(node.slug);
+
+            if (!position) {
+              return null;
+            }
+
+            return (
+              <a href={`${basePath}posts/${node.slug}/`} aria-label={`${node.title} を開く`}>
+                <g
+                  class:list={['graph-node', node.slug === defaultSlug && 'is-active', node.isFocus && 'is-focus']}
+                  tabindex="0"
+                  data-graph-node
+                  data-slug={node.slug}
+                  transform={`translate(${position.x}, ${position.y})`}
+                >
+                  <circle class="graph-node-ring" r={position.radius + 9}></circle>
+                  <circle class="graph-node-core" r={position.radius}></circle>
+                  <text class="graph-node-count" text-anchor="middle" y="6">
+                    {node.relationCount}
+                  </text>
+                  <text class="graph-node-label" text-anchor="middle" y={position.radius + 26}>
+                    {toShortLabel(node.title)}
+                  </text>
+                </g>
+              </a>
+            );
+          })}
+        </svg>
+      </div>
+
+      <aside class="graph-inspector">
+        <div class="graph-inspector-card">
+          <p class="eyebrow">Selected Node</p>
+          <h3 data-graph-title>{defaultSummary?.node?.title ?? 'No node selected'}</h3>
+          <p class="graph-inspector-meta" data-graph-meta>
+            {defaultSummary?.node
+              ? `${defaultSummary.node.authorName} · ${defaultSummary.node.publishedAt ? new Date(defaultSummary.node.publishedAt).toLocaleString('ja-JP') : '日時未設定'}`
+              : '記事を選択するとここに詳細が出ます。'}
+          </p>
+          <p class="graph-inspector-strength" data-graph-strength>
+            {defaultSummary?.node
+              ? `${defaultSummary.node.relationCount} relations / strength ${defaultSummary.node.connectionStrength}`
+              : 'relations unavailable'}
+          </p>
+          <ul class="graph-relation-list" data-graph-relations>
+            {(defaultSummary?.relations ?? []).slice(0, 4).map((relation) => (
+              <li>
+                <a href={`${basePath}posts/${relation.slug}/`}>{relation.title}</a>
+                <span>{relation.reasons.join(' · ')}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="graph-inspector-card">
+          <p class="eyebrow">Strongest Links</p>
+          <ul class="graph-link-list">
+            {graph.strongestLinks.slice(0, 4).map((edge) => {
+              const sourceNode = graph.nodes.find((node) => node.slug === edge.sourceSlug);
+              const targetNode = graph.nodes.find((node) => node.slug === edge.targetSlug);
+              return (
+                <li>
+                  <div>
+                    <a href={`${basePath}posts/${edge.sourceSlug}/`}>{sourceNode?.title ?? edge.sourceSlug}</a>
+                    <span>↔</span>
+                    <a href={`${basePath}posts/${edge.targetSlug}/`}>{targetNode?.title ?? edge.targetSlug}</a>
+                  </div>
+                  <span>{edge.reasons.join(' · ')}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  )}
+</section>
+
+<script define:vars={{ graphPayload }}>
+  const root = document.querySelector('[data-relation-graph]');
+  const nodeElements = Array.from(root?.querySelectorAll('[data-graph-node]') ?? []);
+  const edgeElements = Array.from(root?.querySelectorAll('[data-graph-edge]') ?? []);
+  const title = root?.querySelector('[data-graph-title]');
+  const meta = root?.querySelector('[data-graph-meta]');
+  const strength = root?.querySelector('[data-graph-strength]');
+  const relations = root?.querySelector('[data-graph-relations]');
+
+  const renderRelations = (linked) => {
+    if (!relations) {
+      return;
+    }
+
+    relations.innerHTML = '';
+
+    if (linked.length === 0) {
+      const item = document.createElement('li');
+      const note = document.createElement('span');
+      note.textContent = 'まだ他の published post との明確な link がありません。';
+      item.append(note);
+      relations.append(item);
+      return;
+    }
+
+    for (const relation of linked.slice(0, 4)) {
+      const item = document.createElement('li');
+      const anchor = document.createElement('a');
+      const reason = document.createElement('span');
+
+      anchor.href = `${graphPayload.basePath}posts/${relation.slug}/`;
+      anchor.textContent = relation.title;
+      reason.textContent = relation.reasons.join(' · ');
+
+      item.append(anchor, reason);
+      relations.append(item);
+    }
+  };
+
+  const renderSelection = (slug) => {
+    const node = graphPayload.nodes[slug];
+    const linked = graphPayload.adjacency[slug] ?? [];
+
+    if (!node || !relations || !title || !meta || !strength) {
+      return;
+    }
+
+    title.textContent = node.title;
+    meta.textContent = `${node.authorName} · ${node.publishedAt}`;
+    strength.textContent = `${node.relationCount} relations / strength ${node.connectionStrength}`;
+    renderRelations(linked);
+
+    for (const element of nodeElements) {
+      element.classList.toggle('is-active', element.getAttribute('data-slug') === slug);
+    }
+
+    for (const edge of edgeElements) {
+      const source = edge.getAttribute('data-source');
+      const target = edge.getAttribute('data-target');
+      edge.classList.toggle('is-active', source === slug || target === slug);
+    }
+  };
+
+  if (graphPayload.defaultSlug) {
+    renderSelection(graphPayload.defaultSlug);
+  }
+
+  for (const node of nodeElements) {
+    const slug = node.getAttribute('data-slug');
+    if (!slug) continue;
+
+    node.addEventListener('mouseenter', () => renderSelection(slug));
+    node.addEventListener('focus', () => renderSelection(slug));
+    node.addEventListener('mouseleave', () => graphPayload.defaultSlug && renderSelection(graphPayload.defaultSlug));
+    node.addEventListener('blur', () => graphPayload.defaultSlug && renderSelection(graphPayload.defaultSlug));
+  }
+</script>

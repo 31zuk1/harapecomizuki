@@ -1,4 +1,6 @@
 ---
+import AuthorIdentity from '../../components/AuthorIdentity.astro';
+import PostRelationGraph from '../../components/PostRelationGraph.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPostBySlug, getPublishedPosts } from '../../lib/posts';
 
@@ -13,15 +15,38 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const resolvedPost = getPublishedPostBySlug(post.slug) ?? post;
 const Content = resolvedPost.Content as unknown as (...args: never[]) => unknown;
+const publishedDate = new Date(post.data.publishedAt ?? post.data.draftUpdatedAt).toLocaleString('ja-JP');
+const sourceCreatedDate = post.data.sourceCreatedAt ? new Date(post.data.sourceCreatedAt).toLocaleString('ja-JP') : null;
+const sourceUpdatedDate = post.data.sourceUpdatedAt ? new Date(post.data.sourceUpdatedAt).toLocaleString('ja-JP') : null;
+const allPosts = getPublishedPosts();
 ---
 
-<BaseLayout title={`${post.data.title} | Discord Blog PoC`}>
-  <article class="article">
-    <p class="article-meta">
-      <span>{post.data.authorName}</span>
-      <span>{new Date(post.data.publishedAt ?? post.data.draftUpdatedAt).toLocaleString('ja-JP')}</span>
-    </p>
-    <h1>{post.data.title}</h1>
+<BaseLayout
+  title={`${post.data.title} | Harapecomizuki`}
+  description={post.data.excerpt || 'Discord から publish された記事'}
+>
+  <article class="article article-post">
+    <div class="article-header">
+      <a class="back-link" href={import.meta.env.BASE_URL}>← Published Stream</a>
+      <p class="eyebrow">Published Snapshot</p>
+      <h1>{post.data.title}</h1>
+      <p class="lead article-lead">
+        Discord で更新された draft から、公開タイミングだけを切り出して GitHub Pages に反映したスナップショットです。
+      </p>
+      <div class="article-meta-row">
+        <AuthorIdentity
+          name={post.data.authorName}
+          avatarUrl={post.data.authorAvatarUrl}
+          primaryLabel={sourceCreatedDate ? `Discord 投稿日時: ${sourceCreatedDate}` : `公開日時: ${publishedDate}`}
+          secondaryLabel={sourceUpdatedDate ? `最終同期: ${sourceUpdatedDate}` : undefined}
+        />
+        <div class="article-badges">
+          <span class="state-pill">published</span>
+          <span class="meta-pill">公開: {publishedDate}</span>
+          <span class="meta-pill">{post.data.attachments.length} attachments</span>
+        </div>
+      </div>
+    </div>
 
     {post.data.tags.length > 0 && (
       <ul class="tags">
@@ -34,5 +59,54 @@ const Content = resolvedPost.Content as unknown as (...args: never[]) => unknown
     <div class="article-body">
       <Content />
     </div>
+
+    <PostRelationGraph
+      posts={allPosts}
+      focusSlug={post.slug}
+      sectionId="graph-view"
+      eyebrow="Relation Graph"
+      title="この投稿を中心にした relation map"
+      description="いま読んでいる記事を中心に、shared tags と author で近い投稿を周辺ノードとして表示します。"
+    />
+
+    <section class="applause-panel">
+      <div>
+        <p class="eyebrow">Feedback</p>
+        <h2>この記事に拍手する</h2>
+        <p class="applause-note">現在の beta では、この拍手数はブラウザごとに保存されます。</p>
+      </div>
+      <div class="applause-action">
+        <button class="applause-button" type="button" data-applause-button>
+          👏 拍手する
+        </button>
+        <p class="applause-count">
+          <span data-applause-count>{0}</span>
+          <span>claps</span>
+        </p>
+      </div>
+    </section>
   </article>
 </BaseLayout>
+
+<script define:vars={{ slug: post.slug }}>
+  const countKey = `harapecomizuki:applause:${slug}`;
+  const countElement = document.querySelector('[data-applause-count]');
+  const button = document.querySelector('[data-applause-button]');
+
+  const readCount = () => Number.parseInt(localStorage.getItem(countKey) ?? '0', 10) || 0;
+  const render = () => {
+    if (countElement) {
+      countElement.textContent = String(readCount());
+    }
+  };
+
+  render();
+
+  button?.addEventListener('click', () => {
+    const next = readCount() + 1;
+    localStorage.setItem(countKey, String(next));
+    render();
+    button.classList.add('is-celebrating');
+    window.setTimeout(() => button.classList.remove('is-celebrating'), 260);
+  });
+</script>

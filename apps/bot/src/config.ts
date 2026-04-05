@@ -6,6 +6,15 @@ function parseBoolean(value: string | undefined): boolean {
   return value === '1' || value === 'true';
 }
 
+function parseInteger(value: string | undefined, fallback: number): number {
+  if (!value) {
+    return fallback;
+  }
+
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 function findRepoRoot(startDir: string): string {
   let currentDir = path.resolve(startDir);
 
@@ -49,6 +58,10 @@ export function resolveAppConfig(
     siteBaseUrl: env.SITE_BASE_URL ?? 'http://localhost:4321',
     gitAuthorName: env.GIT_AUTHOR_NAME,
     gitAuthorEmail: env.GIT_AUTHOR_EMAIL,
+    githubRepo: env.GITHUB_REPO,
+    githubToken: env.GITHUB_TOKEN,
+    githubPagesWorkflowName: env.GITHUB_PAGES_WORKFLOW_NAME ?? 'Deploy GitHub Pages',
+    attachmentMaxSizeBytes: parseInteger(env.MAX_ATTACHMENT_SIZE_MB, 10) * 1024 * 1024,
     draftsDir: path.join(repoRoot, 'content', 'drafts'),
     publishedDir: path.join(repoRoot, 'apps', 'site', 'src', 'posts'),
     uploadsDir: path.join(repoRoot, 'apps', 'site', 'public', 'uploads'),

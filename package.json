@@ -11,6 +11,8 @@
     "build": "node ./scripts/build.mjs",
     "test": "node ./scripts/test.mjs",
     "dev": "node ./scripts/dev.mjs",
+    "start:bot": "node ./scripts/start-bot.mjs",
+    "preview:site": "node ./scripts/preview-site.mjs",
     "demo": "node ./scripts/demo.mjs",
     "discord:check": "node ./scripts/discord-check.mjs",
     "pages:check": "node ./scripts/pages-check.mjs"

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 | Harapecomizuki">
+  <section class="hero hero-error">
+    <p class="eyebrow">404</p>
+    <h1>そのページはまだ公開されていないか、すでに非公開です。</h1>
+    <p class="lead">
+      Discord 側の draft が存在していても、`!publish` 済みのスナップショットだけがこのサイトに現れます。
+    </p>
+    <div class="hero-actions">
+      <a class="button-primary" href={import.meta.env.BASE_URL}>公開記事一覧へ戻る</a>
+      <a class="button-secondary" href="https://github.com/31zuk1/harapecomizuki/actions">Deploy 状態を見る</a>
+    </div>
+  </section>
+</BaseLayout>

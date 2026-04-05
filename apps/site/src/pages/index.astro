@@ -1,20 +1,116 @@
 ---
+import AuthorIdentity from '../components/AuthorIdentity.astro';
+import PostRelationGraph from '../components/PostRelationGraph.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../lib/posts';
 
 const posts = getPublishedPosts();
 const baseUrl = import.meta.env.BASE_URL;
 const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+const latestPost = posts[0];
+const searchablePosts = posts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  authorName: post.data.authorName,
+  tags: post.data.tags,
+  excerpt: post.data.excerpt,
+  publishedAt: post.data.publishedAt ?? post.data.draftUpdatedAt
+}));
 ---
 
-<BaseLayout title="Discord Blog PoC">
-  <section class="hero">
-    <p class="eyebrow">Published snapshots</p>
-    <h1>スマホの Discord 投稿から公開までを PoC で通すブログ</h1>
-    <p class="lead">
-      draft は bot 側で管理し、ここには `!publish` で確定したスナップショットだけを表示します。
-    </p>
+<BaseLayout title="Harapecomizuki | Discord Publishing Demo" currentPath="/">
+  <section class="hero hero-home">
+    <div class="hero-copy">
+      <p class="eyebrow">Discord Publishing Beta</p>
+      <h1>Discord を入力面に、GitHub Pages を配信面にした静的公開フロー。</h1>
+      <p class="lead">
+        Discord で下書きを更新し、`!publish` の瞬間だけ公開スナップショットを固定する。
+        軽量で追跡しやすい、エンジニア向けの運用モデルをそのまま見せるデモです。
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href={latestPost ? `${basePath}posts/${latestPost.slug}/` : '#published-stream'}>
+          {latestPost ? 'Latest Publish' : 'Open Published Stream'}
+        </a>
+        <a class="button-secondary" href="https://github.com/31zuk1/harapecomizuki">設計を見る</a>
+      </div>
+    </div>
+    <aside class="hero-panel">
+      <p class="panel-label">Execution Path</p>
+      <ol class="flow-list">
+        <li>Discord に `!post` を投げる</li>
+        <li>メッセージ編集で draft を更新する</li>
+        <li>`!publish` でスナップショットを固定する</li>
+        <li>GitHub Pages に静的 deploy する</li>
+      </ol>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Published</span>
+          <strong>{posts.length}</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Channel-first</span>
+          <strong>Discord</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Delivery</span>
+          <strong>Astro + Pages</strong>
+        </div>
+      </div>
+    </aside>
   </section>
+
+  <section class="feature-grid">
+    <article class="feature-card">
+      <p class="eyebrow">Operational Safety</p>
+      <h2>Published snapshot を固定し、公開サイトを不用意に変えない</h2>
+      <p>
+        Discord 側の元メッセージは自由に編集し続けられますが、公開サイトには `!publish` 時点の内容だけを反映します。
+        日常の書き味と公開品質のバランスを取る設計です。
+      </p>
+    </article>
+    <article class="feature-card">
+      <p class="eyebrow">Minimal Surface</p>
+      <h2>DB なし、JSON と Markdown を source of truth に保つ</h2>
+      <p>
+        DB や CMS を持ち込まず、JSON と Markdown を source of truth にしています。複雑さを抑えたまま、
+        実運用で必要な改善点を見つけるための構成です。
+      </p>
+    </article>
+  </section>
+
+  <section class="section-heading" id="published-stream">
+    <p class="eyebrow">Published Stream</p>
+    <h2>公開済みスナップショット</h2>
+    <p>ここに載るのは publish 済みの記事だけです。draft の編集は裏側で続けられます。</p>
+  </section>
+
+  <section class="search-panel" id="site-search">
+    <div class="search-panel-header">
+      <div>
+        <p class="eyebrow">Search</p>
+        <h2>記事インデックスを検索</h2>
+      </div>
+      <p class="search-meta" data-search-meta>{posts.length} 件の記事を検索できます。</p>
+    </div>
+    <label class="search-field">
+      <span class="sr-only">記事を検索</span>
+      <input
+        type="search"
+        name="search"
+        placeholder="title / tags / author / excerpt で検索"
+        autocomplete="off"
+        data-search-input
+      />
+    </label>
+  </section>
+
+  <PostRelationGraph
+    posts={posts}
+    sectionId="graph-view"
+    eyebrow="Content Graph"
+    title="投稿どうしの近さをグラフで見る"
+    description="shared tags と same author を重みにして、公開済み記事の関係を横断的にたどれます。"
+  />
 
   <section class="post-list">
     {posts.length === 0 ? (
@@ -24,23 +120,81 @@ const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
       </article>
     ) : (
       posts.map((post) => (
-        <article class="card">
-          <p class="meta">
-            <span>{post.data.authorName}</span>
-            <span>{new Date(post.data.publishedAt ?? post.data.draftUpdatedAt).toLocaleString('ja-JP')}</span>
-          </p>
-          <h2>
-            <a href={`${basePath}posts/${post.slug}/`}>{post.data.title}</a>
-          </h2>
-          {post.data.tags.length > 0 && (
-            <ul class="tags">
-              {post.data.tags.map((tag) => (
-                <li>{tag}</li>
-              ))}
-            </ul>
-          )}
+        <article
+          class="card"
+          data-post-card
+          data-searchable={`${post.data.title} ${post.data.authorName} ${post.data.tags.join(' ')} ${post.data.excerpt}`.toLowerCase()}
+        >
+          <div class="card-topline">
+            <AuthorIdentity
+              compact={true}
+              name={post.data.authorName}
+              avatarUrl={post.data.authorAvatarUrl}
+              primaryLabel={`公開: ${new Date(post.data.publishedAt ?? post.data.draftUpdatedAt).toLocaleString('ja-JP')}`}
+            />
+            <span class="state-pill">published</span>
+          </div>
+          <h2><a href={`${basePath}posts/${post.slug}/`}>{post.data.title}</a></h2>
+          <p class="excerpt">{post.data.excerpt || '本文の要約はまだありません。'}</p>
+          <div class="card-footer">
+            {post.data.tags.length > 0 && (
+              <ul class="tags">
+                {post.data.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            )}
+            <div class="card-actions">
+              <span class="applause-pill">
+                👏 <span data-applause-count={post.slug}>0</span>
+              </span>
+              <a class="text-link" href={`${basePath}posts/${post.slug}/`}>Read article</a>
+            </div>
+          </div>
         </article>
       ))
     )}
   </section>
 </BaseLayout>
+
+<script define:vars={{ searchablePosts }}>
+  const cards = Array.from(document.querySelectorAll('[data-post-card]'));
+  const input = document.querySelector('[data-search-input]');
+  const meta = document.querySelector('[data-search-meta]');
+
+  const normalize = (value) =>
+    value
+      .toLowerCase()
+      .normalize('NFKC')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  const updateSearch = () => {
+    const query = normalize(input?.value ?? '');
+    let visible = 0;
+
+    for (const card of cards) {
+      const haystack = normalize(card.getAttribute('data-searchable') ?? '');
+      const matched = !query || haystack.includes(query);
+      card.hidden = !matched;
+      if (matched) visible += 1;
+    }
+
+    if (meta) {
+      meta.textContent = query
+        ? `${visible} / ${searchablePosts.length} 件が一致しました。`
+        : `${searchablePosts.length} 件の記事を検索できます。`;
+    }
+  };
+
+  const readApplause = (slug) => Number.parseInt(localStorage.getItem(`harapecomizuki:applause:${slug}`) ?? '0', 10) || 0;
+
+  for (const post of searchablePosts) {
+    const target = document.querySelector(`[data-applause-count="${post.slug}"]`);
+    if (target) {
+      target.textContent = String(readApplause(post.slug));
+    }
+  }
+
+  input?.addEventListener('input', updateSearch);
+</script>
