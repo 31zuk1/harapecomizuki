@@ -100,6 +100,31 @@
       "createdAt": "2026-04-05T01:24:41.644Z",
       "updatedAt": "2026-04-05T01:24:41.644Z",
       "publishedAt": "2026-04-05T01:25:05.082Z"
+    },
+    "1490161986263322814": {
+      "messageId": "1490161986263322814",
+      "channelId": "1489837525231992873",
+      "slug": "beta2",
+      "title": "beta2",
+      "tags": [
+        "discord",
+        "poc",
+        "test",
+        "astro"
+      ],
+      "body": "何もない空白投稿はエラーを吐くのね、えらい",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "authorAvatarUrl": "https://cdn.discordapp.com/avatars/823771760339058739/98a767a1e111690f8b35902d6da65f59.png?size=128",
+      "status": "draft",
+      "hasUnpublishedChanges": true,
+      "attachments": [],
+      "publishedAttachments": [],
+      "draftFilePath": "content/drafts/beta2.md",
+      "publishedFilePath": "apps/site/src/posts/beta2.md",
+      "createdAt": "2026-04-05T01:31:43.396Z",
+      "updatedAt": "2026-04-05T01:31:43.396Z",
+      "publishedAt": null
     }
   }
 }
