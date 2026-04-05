@@ -125,6 +125,30 @@
       "createdAt": "2026-04-05T01:31:43.396Z",
       "updatedAt": "2026-04-05T01:31:43.396Z",
       "publishedAt": "2026-04-05T01:32:00.015Z"
+    },
+    "1490163076635562064": {
+      "messageId": "1490163076635562064",
+      "channelId": "1489837525231992873",
+      "slug": "beta3",
+      "title": "beta3",
+      "tags": [
+        "discord",
+        "poc",
+        "astro"
+      ],
+      "body": "なんかデプロイに数十秒程度は時間がかかるのですぐにアクセスすると404になるな",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "authorAvatarUrl": "https://cdn.discordapp.com/avatars/823771760339058739/98a767a1e111690f8b35902d6da65f59.png?size=128",
+      "status": "draft",
+      "hasUnpublishedChanges": true,
+      "attachments": [],
+      "publishedAttachments": [],
+      "draftFilePath": "content/drafts/beta3.md",
+      "publishedFilePath": "apps/site/src/posts/beta3.md",
+      "createdAt": "2026-04-05T01:36:03.361Z",
+      "updatedAt": "2026-04-05T01:36:03.361Z",
+      "publishedAt": null
     }
   }
 }
