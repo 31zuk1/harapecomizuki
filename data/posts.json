@@ -140,15 +140,15 @@
       "authorId": "823771760339058739",
       "authorName": "Mizuki",
       "authorAvatarUrl": "https://cdn.discordapp.com/avatars/823771760339058739/98a767a1e111690f8b35902d6da65f59.png?size=128",
-      "status": "draft",
-      "hasUnpublishedChanges": true,
+      "status": "published",
+      "hasUnpublishedChanges": false,
       "attachments": [],
       "publishedAttachments": [],
       "draftFilePath": "content/drafts/beta3.md",
       "publishedFilePath": "apps/site/src/posts/beta3.md",
       "createdAt": "2026-04-05T01:36:03.361Z",
       "updatedAt": "2026-04-05T01:36:03.361Z",
-      "publishedAt": null
+      "publishedAt": "2026-04-05T01:36:18.673Z"
     }
   }
 }
