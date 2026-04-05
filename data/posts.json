@@ -162,15 +162,15 @@
       "authorId": "901506210380013568",
       "authorName": "So",
       "authorAvatarUrl": "https://cdn.discordapp.com/avatars/901506210380013568/0cb4aba65aae7ba71f8dc64ce8799a95.png?size=128",
-      "status": "draft",
-      "hasUnpublishedChanges": true,
+      "status": "published",
+      "hasUnpublishedChanges": false,
       "attachments": [],
       "publishedAttachments": [],
       "draftFilePath": "content/drafts/post-20260405013933.md",
       "publishedFilePath": "apps/site/src/posts/post-20260405013933.md",
       "createdAt": "2026-04-05T01:39:33.043Z",
       "updatedAt": "2026-04-05T01:39:33.043Z",
-      "publishedAt": null
+      "publishedAt": "2026-04-05T01:40:03.952Z"
     }
   }
 }
