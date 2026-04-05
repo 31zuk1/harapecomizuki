@@ -1,42 +1,105 @@
 {
   "posts": {
-    "demo-message-1": {
-      "messageId": "demo-message-1",
-      "channelId": "demo-blog-channel",
-      "slug": "hello-from-discord",
-      "title": "Hello from Discord",
+    "1489994012982247445": {
+      "messageId": "1489994012982247445",
+      "channelId": "1489837525231992873",
+      "slug": "discord-restart-test",
+      "title": "Discord Restart Test",
       "tags": [
         "discord",
         "astro",
         "poc",
-        "edited"
+        "restart"
       ],
-      "body": "This post started life as a Discord message.\n\nIt was then edited on mobile and synced back into the draft.\n\n1. The published page will stay untouched until `!publish`\n2. The draft markdown keeps the latest body\n3. The JSON registry tracks `messageId -> slug`",
-      "authorId": "author-1",
-      "authorName": "Demo Writer",
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nThis line was added by editing the original Discord post.\n\n念のためもう一度確認\n\ndemo",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "status": "published",
+      "hasUnpublishedChanges": false,
+      "attachments": [],
+      "draftFilePath": "content/drafts/discord-restart-test.md",
+      "publishedFilePath": "apps/site/src/posts/discord-restart-test.md",
+      "createdAt": "2026-04-04T14:24:15.445Z",
+      "updatedAt": "2026-04-04T15:08:46.751Z",
+      "publishedAt": "2026-04-04T15:10:58.455Z"
+    },
+    "1490024790470299971": {
+      "messageId": "1490024790470299971",
+      "channelId": "1489837525231992873",
+      "slug": "test",
+      "title": "Discord CMS Test (bypass github actions)",
+      "tags": [
+        "discord",
+        "astro",
+        "poc",
+        "test"
+      ],
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\nできるかな？\nauto pushを有効にしたよ\n問題を修正した(2回目)",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "status": "published",
+      "hasUnpublishedChanges": false,
+      "attachments": [],
+      "draftFilePath": "content/drafts/test.md",
+      "publishedFilePath": "apps/site/src/posts/test.md",
+      "createdAt": "2026-04-04T16:26:33.370Z",
+      "updatedAt": "2026-04-04T16:48:45.694Z",
+      "publishedAt": "2026-04-04T16:49:08.947Z"
+    },
+    "1490031666146574376": {
+      "messageId": "1490031666146574376",
+      "channelId": "1489837525231992873",
+      "slug": "image-upload-test",
+      "title": "image upload test",
+      "tags": [
+        "discord",
+        "test",
+        "poc",
+        "astro"
+      ],
+      "body": "This is a fresh test from Discord.\n\n- First post after reset\n- Should create a draft\n- Should later be published\n\n画像も投稿できるかな",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
       "status": "published",
       "hasUnpublishedChanges": false,
       "attachments": [
         {
-          "originalName": "hero.svg",
-          "storedRelativePath": "uploads/2026/04/demo-message-1-20260401021500-hero.svg",
-          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/demo-message-1-20260401021500-hero.svg",
-          "contentType": "image/svg+xml"
+          "originalName": "2026-02-19_17.10.54.png",
+          "storedRelativePath": "uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
+          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/1490031666146574376-20260404165352-2026-02-19_17-10-54.png",
+          "contentType": "image/png"
         }
       ],
-      "publishedAttachments": [
-        {
-          "originalName": "hero.svg",
-          "storedRelativePath": "uploads/2026/04/demo-message-1-20260401021500-hero.svg",
-          "publicUrl": "https://31zuk1.github.io/harapecomizuki/uploads/2026/04/demo-message-1-20260401021500-hero.svg",
-          "contentType": "image/svg+xml"
-        }
+      "draftFilePath": "content/drafts/image-upload-test.md",
+      "publishedFilePath": "apps/site/src/posts/image-upload-test.md",
+      "createdAt": "2026-04-04T16:53:52.659Z",
+      "updatedAt": "2026-04-04T16:53:52.659Z",
+      "publishedAt": "2026-04-04T16:54:27.525Z"
+    },
+    "1490160217307218021": {
+      "messageId": "1490160217307218021",
+      "channelId": "1489837525231992873",
+      "slug": "beta",
+      "title": "beta1test",
+      "tags": [
+        "discord",
+        "test",
+        "poc",
+        "astro"
       ],
-      "draftFilePath": "content/drafts/hello-from-discord.md",
-      "publishedFilePath": "apps/site/src/posts/hello-from-discord.md",
-      "createdAt": "2026-04-01T01:00:00.000Z",
-      "updatedAt": "2026-04-01T02:15:00.000Z",
-      "publishedAt": "2026-04-04T19:02:22.832Z"
+      "body": "いけるかな？",
+      "authorId": "823771760339058739",
+      "authorName": "Mizuki",
+      "authorAvatarUrl": "https://cdn.discordapp.com/avatars/823771760339058739/98a767a1e111690f8b35902d6da65f59.png?size=128",
+      "status": "draft",
+      "hasUnpublishedChanges": true,
+      "attachments": [],
+      "publishedAttachments": [],
+      "draftFilePath": "content/drafts/beta.md",
+      "publishedFilePath": "apps/site/src/posts/beta.md",
+      "createdAt": "2026-04-05T01:24:41.644Z",
+      "updatedAt": "2026-04-05T01:24:41.644Z",
+      "publishedAt": null
     }
   }
 }
